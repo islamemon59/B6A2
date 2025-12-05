@@ -2,18 +2,22 @@ import express, { Request, Response } from "express";
 import config from "./config";
 import initDB from "./config/db";
 import { authRoutes } from "./modules/auth/auth.routes";
+import { vehicleRoutes } from "./modules/vehicles/vehicles.routes";
 
 ("./config/db");
 
 const app = express();
 const port = config.port;
 
-app.use(express.json())
+app.use(express.json());
 
 initDB();
 
 //auth routes
 app.use("/api/v1/auth", authRoutes);
+
+// vehicle routes
+app.use("/api/v1/vehicles", vehicleRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is running");
