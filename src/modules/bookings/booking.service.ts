@@ -85,7 +85,11 @@ const updateBooking = async (
       `UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *`,
       ["cancelled", id]
     );
-    return updateBookings.rows[0];
+    return {
+      success: true,
+      message: "Booking cancelled successfully",
+      data: updateBookings.rows[0],
+    };
   }
 
   if (user.role === "admin" && status === "returned") {
@@ -97,7 +101,11 @@ const updateBooking = async (
       `UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *`,
       ["returned", id]
     );
-    return { ...updateBookings.rows[0], vehicle: updateVehicle.rows[0] };
+    return {
+      success: true,
+      message: "Booking marked as returned. Vehicle is now available",
+      data: { ...updateBookings.rows[0], vehicle: updateVehicle.rows[0] },
+    };
   }
 
   if (today.getTime() > endDate.getTime()) {
@@ -109,7 +117,11 @@ const updateBooking = async (
       `UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *`,
       ["returned", id]
     );
-    return { ...updateBookings.rows[0], vehicle: updateVehicle.rows[0] };
+    return {
+      success: true,
+      message: "Booking marked as returned. Vehicle is now available",
+      data: { ...updateBookings.rows[0], vehicle: updateVehicle.rows[0] },
+    };
   }
 };
 
