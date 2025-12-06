@@ -4,6 +4,7 @@ import initDB from "./config/db";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { vehicleRoutes } from "./modules/vehicles/vehicles.routes";
 import { userRoutes } from "./modules/users/users.routes";
+import { bookingRoutes } from "./modules/bookings/bookings.routes";
 
 ("./config/db");
 
@@ -17,11 +18,14 @@ initDB();
 //auth routes
 app.use("/api/v1/auth", authRoutes);
 
+//users route
+app.use("/api/v1/users", userRoutes);
+
 // vehicle routes
 app.use("/api/v1/vehicles", vehicleRoutes);
 
-//users route
-app.use("/api/v1/users", userRoutes);
+//booking routes
+app.use("/api/v1/bookings", bookingRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is running");
