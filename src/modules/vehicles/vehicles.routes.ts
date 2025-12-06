@@ -16,4 +16,7 @@ router.get("/:vehicleId", vehicleControllers.getSingleVehicle);
 // update vehicle admin only
 router.put("/:vehicleId", vehicleControllers.updateVehicle);
 
+// delete vehicle admin only
+router.delete("/:vehicleId", vehicleControllers.deleteVehicle);
+
 export const vehicleRoutes = router;

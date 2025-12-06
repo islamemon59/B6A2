@@ -32,5 +32,5 @@ const createBooking = async (payload: Record<string, unknown>) => {
 };
 
 export const bookingServices = {
-    createBooking,
-}
+  createBooking,
+};

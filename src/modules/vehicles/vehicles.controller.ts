@@ -70,15 +70,42 @@ const updateVehicle = async (req: Request, res: Response) => {
         .json({ success: false, message: "Vehicle not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Vehicle updated successfully",
-        data: result,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Vehicle updated successfully",
+      data: result,
+    });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// delete vehicle admin only
+const deleteVehicle = async (req: Request, res: Response) => {
+  try {
+    const result = await vehicleServices.deleteVehicle(
+      req.params.vehicleId as string
+    );
+    if (result == null) {
+      return res.status(200).json({
+        success: false,
+        message: "vehicle booking status active can not delete",
+      });
+    }
+
+    if (result.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Vehicle not found" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "Vehicle deleted successfully" });
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ success: false, message: error.message, error: error });
   }
 };
 
@@ -87,4 +114,5 @@ export const vehicleControllers = {
   getAllVehicles,
   getSingleVehicle,
   updateVehicle,
+  deleteVehicle,
 };

@@ -58,19 +58,26 @@ const updateVehicle = async (payload: Record<string, unknown>, id: string) => {
   return result.rows[0];
 };
 
-// const deleteVehicle = async (id: string) => {
-//   const  bookings = await pool.query(
-//     `SELECT * FROM bookings WHERE vehicle_id=$1`,[id]
-//   )
+// delete vehicle admin only;
+const deleteVehicle = async (id: string) => {
+  const bookings = await pool.query(
+    `SELECT * FROM bookings WHERE vehicle_id=$1`,
+    [id]
+  );
 
-//   if(!bookings.rows[0].status as string == "active"){
+  const booking = bookings.rows[0];
 
-//   }
-// }
+  if (booking && (booking.status as string) === "active") {
+    return null;
+  }
+  const result = await pool.query(`DELETE FROM vehicles WHERE id=$1`, [id]);
+  return result;
+};
 
 export const vehicleServices = {
   createVehicle,
   getAllVehicles,
   getSingleVehicle,
   updateVehicle,
+  deleteVehicle,
 };
