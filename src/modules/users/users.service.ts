@@ -19,15 +19,15 @@ const updateUser = async (
 
   if (payload.role === "admin") {
     const result = await pool.query(
-      `UPDATE users SET name=$1, email=$2, phone=$3, role=$4 WHERE id=$5 RETURNING *`,
-      [name, email, phone, role, id]
+      `UPDATE users SET name=COALESCE($1, name), email= COALESCE($2, email), phone= COALESCE($3, phone), role= COALESCE($4, role) WHERE id=$5 RETURNING *`,
+      [name ?? null, email ?? null, phone ?? null, role ?? null, id]
     );
     delete result.rows[0].password;
     return result.rows[0];
   } else if (payload.role === "customer" && payload.id == id) {
     const result = await pool.query(
-      `UPDATE users SET name=$1, email=$2, phone=$3 WHERE id=$4 RETURNING *`,
-      [name, email, phone, id]
+      `UPDATE users SET name= COALESCE($1, name), email= COALESCE($2, email), phone= COALESCE($3, phone) WHERE id=$4 RETURNING *`,
+      [name ?? null, email ?? null, phone ?? null, id]
     );
     delete result.rows[0].password;
     return result.rows[0];
