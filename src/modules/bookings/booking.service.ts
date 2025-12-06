@@ -3,6 +3,14 @@ import { pool } from "../../config/db";
 // create booking admin , customer;
 const createBooking = async (payload: Record<string, unknown>) => {
   const { customer_id, vehicle_id, rent_start_date, rent_end_date } = payload;
+  const endDate = new Date(rent_start_date as string);
+  const startDate = new Date(rent_start_date as string);
+  if (
+    startDate.getDate() === endDate.getDate() &&
+    endDate.getDate() < startDate.getDate()
+  ) {
+    throw new Error("Must be after start date");
+  }
   const result = await pool.query(
     `INSERT INTO bookings(customer_id, vehicle_id, rent_start_date, rent_end_date, status) VALUES($1, $2, $3, $4, $5) RETURNING *`,
     [customer_id, vehicle_id, rent_start_date, rent_end_date, "active"]

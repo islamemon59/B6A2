@@ -21,7 +21,7 @@ const createBooking = async (req: Request, res: Response) => {
 // update booking
 const updateBooking = async (req: Request, res: Response) => {
   const user = req.user as JwtPayload;
-  const status = req.body?.status
+  const status = req.body?.status;
   try {
     const result = await bookingServices.updateBooking(
       status,

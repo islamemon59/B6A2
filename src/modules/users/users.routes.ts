@@ -11,6 +11,6 @@ router.get("/", auth("admin"), userControllers.getAllUser);
 router.put("/:userId", auth("admin", "customer"), userControllers.updateUser);
 
 // delete user admin only
-router.delete("/:userId", userControllers.deleteUser);
+router.delete("/:userId", auth("admin"), userControllers.deleteUser);
 
 export const userRoutes = router;

@@ -5,6 +5,14 @@ import config from "../../config";
 
 const signupUser = async (payload: Record<string, unknown>) => {
   const { name, email, password, phone, role } = payload;
+  const checkPass = password as string;
+  const checkEmail = email as string;
+  if (!checkEmail.toLowerCase()) {
+    throw new Error("Email must be lowercase");
+  }
+  if (checkPass.length < 6) {
+    throw new Error("Password length must be 6 character");
+  }
   const hashedPass = await bcrypt.hash(password as string, 10);
   const result = await pool.query(
     `INSERT INTO users(name, email, password, phone, role) VALUES($1, $2, $3, $4, $5) RETURNING *`,
