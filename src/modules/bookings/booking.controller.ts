@@ -54,7 +54,21 @@ const updateBooking = async (req: Request, res: Response) => {
   }
 };
 
+// get all bookings admin, customer;
+const getAllBookings = async (req: Request, res: Response) => {
+  const user = req.user as JwtPayload;
+  try {
+    const result = await bookingServices.getAllBookings(user);
+    res.status(200).json(result);
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ success: false, message: error.message, error: error });
+  }
+};
+
 export const bookingControllers = {
   createBooking,
   updateBooking,
+  getAllBookings,
 };
