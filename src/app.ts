@@ -26,7 +26,7 @@ app.use("/api/v1/vehicles", vehicleRoutes);
 app.use("/api/v1/bookings", bookingRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Server is running");
+  res.send("Express server is running");
 });
 
 export default app;
