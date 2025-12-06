@@ -40,13 +40,39 @@ const updateUser = async (req: Request, res: Response) => {
         .json({ success: false, message: "User not found" });
     }
 
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ success: false, message: error.message, error: error });
+  }
+};
+
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const result = await userServices.deleteUser(
+      req.params.userId!
+    );
+    if (result == null) {
+      return res.status(200).json({
+        success: false,
+        message: "User booking status active can not delete",
+      });
+    }
+
+    if (result.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
     res
       .status(200)
-      .json({
-        success: true,
-        message: "User updated successfully",
-        data: result,
-      });
+      .json({ success: true, message: "User deleted successfully" });
   } catch (error: any) {
     res
       .status(500)
@@ -57,4 +83,5 @@ const updateUser = async (req: Request, res: Response) => {
 export const userControllers = {
   getAllUser,
   updateUser,
+  deleteUser
 };

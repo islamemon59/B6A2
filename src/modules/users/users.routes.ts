@@ -10,4 +10,7 @@ router.get("/", auth("admin"), userControllers.getAllUser);
 // update user profile admin , customer
 router.put("/:userId", auth("admin", "customer"), userControllers.updateUser);
 
+// delete user admin only
+router.delete("/:userId", userControllers.deleteUser);
+
 export const userRoutes = router;

@@ -34,7 +34,24 @@ const updateUser = async (
   }
 };
 
+// delete user admin only
+const deleteUser = async (id: string) => {
+    const bookings = await pool.query(
+    `SELECT * FROM bookings WHERE customer_id=$1`,
+    [id]
+  );
+
+    const booking = bookings.rows[0];
+
+  if (booking && (booking.status as string) === "active") {
+    return null;
+  }
+  const result = await pool.query(`DELETE FROM users WHERE id=$1`, [id]);
+  return result;
+}
+
 export const userServices = {
   getAllUser,
   updateUser,
+  deleteUser
 };
